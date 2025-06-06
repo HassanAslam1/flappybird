@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird</title>
+    <link rel="icon" href="assets/smiley1.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="lib/p5.min.js"></script>
+    <script src="lib/p5.dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+</head>
+<body>
+    <div class="sky-container">
+        <div class="cloud-layer-1"></div>
+        <div class="cloud-layer-2"></div>
+        <div class="cloud-layer-3"></div>
+        <div class="sun"></div>
+        <div class="golden-particles" id="golden-particles"></div>
+        <div class="lens-flare" style="top:15%; right:15%;"></div>
+    </div>
+
+    <h1>FLAPPY BIRD</h1>
+    
+    <!-- <div class="game-container">
+        <canvas></canvas>
+    </div> -->
+
+    <div class="ground"></div>
+
+    <script src="sketch.js"></script>
+
+    <script>
+        // Create golden particles
+        function createGoldenParticles() {
+            const container = document.getElementById('golden-particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('golden-particle');
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * -20;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        window.onload = createGoldenParticles;
+    </script>
+</body>
+</html>

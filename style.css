@@ -1,0 +1,264 @@
+/* style.css */
+@font-face {
+    font-family: 'FlappyBird';
+    src: url('FlappyBirdy.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff9a44 0%, #fad961 25%, #7eccea 50%, #1e5799 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    font-family: 'FlappyBird', Arial, sans-serif;
+    perspective: 1000px;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* === Majestic Sky Layers === */
+.sky-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Back Clouds (Slow) */
+.cloud-layer-1 {
+    position: absolute;
+    width: 300%;
+    height: 100%;
+    background: url('https://assets.codepen.io/21542/flappy-clouds-back.png') repeat-x;
+    background-size: auto 80%;
+    animation: cloudMove 120s linear infinite;
+    opacity: 0.6;
+}
+
+/* Mid Clouds (Medium) */
+.cloud-layer-2 {
+    position: absolute;
+    width: 300%;
+    height: 100%;
+    background: url('https://assets.codepen.io/21542/flappy-clouds-mid.png') repeat-x;
+    background-size: auto 90%;
+    animation: cloudMove 80s linear infinite;
+    opacity: 0.8;
+}
+
+/* Front Clouds (Fast) */
+.cloud-layer-3 {
+    position: absolute;
+    width: 300%;
+    height: 100%;
+    background: url('https://assets.codepen.io/21542/flappy-clouds-front.png') repeat-x;
+    background-size: auto 100%;
+    animation: cloudMove 40s linear infinite;
+}
+
+@keyframes cloudMove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* === Golden Sun Effect === */
+.sun {
+    position: fixed;
+    top: 10%;
+    right: 15%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #ffde59 0%, #ff8c00 70%, transparent 80%);
+    border-radius: 50%;
+    box-shadow: 0 0 60px #ffde59, 0 0 120px #ff8c00;
+    z-index: 2;
+    animation: sunPulse 8s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* === Game Canvas (Premium Look) === */
+canvas {
+    display: block;
+    margin: 40px auto;
+    width: 90%;
+    max-width: 960px;
+    height: 540px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #a6e8f1, #49b9cc);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.2),
+        inset 0 0 40px rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(8px) saturate(1.5);
+    -webkit-backdrop-filter: blur(8px) saturate(1.5);
+    transition: 
+        transform 0.25s ease-in-out, 
+        box-shadow 0.3s ease,
+        border 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+/* Subtle animation on mount */
+canvas::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.05), transparent 70%);
+    animation: rotateLight 12s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Glossy light reflection layer */
+canvas::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(60deg, rgba(255,255,255,0.15), transparent 70%);
+    mix-blend-mode: screen;
+    z-index: 2;
+    pointer-events: none;
+}
+
+@keyframes rotateLight {
+    0% {
+        transform: rotate(0deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1.2);
+    }
+}
+
+canvas:hover {
+    transform: scale(1.012);
+    box-shadow:
+        0 45px 90px rgba(0, 255, 255, 0.15),
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 0 40px rgba(255, 255, 255, 0.08);
+    border: 2px solid #00eaff;
+}
+
+
+
+/* === Animated Ground (3D Effect) === */
+.ground {
+    position: fixed;
+    bottom: 0;
+    width: 300%;
+    height: 120px;
+    background: url('https://assets.codepen.io/21542/flappy-ground-texture.png') repeat-x;
+    background-size: auto 100%;
+    z-index: 8;
+    animation: groundMove 4s linear infinite;
+    transform-origin: bottom;
+    transform: rotateX(20deg);
+}
+
+@keyframes groundMove {
+    from { transform: translateX(0) rotateX(20deg); }
+    to { transform: translateX(-50%) rotateX(20deg); }
+}
+
+/* === Floating Golden Particles === */
+.golden-particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.golden-particle {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,165,0,0) 70%);
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) translateX(50px) scale(1.2); opacity: 0; }
+}
+
+/* === Lens Flare Effects === */
+.lens-flare {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* === Game Title (Epic Style) === */
+h1 {
+    font-size: 5em;
+    color: #fff;
+    text-align: center;
+    margin: 20px 0;
+    z-index: 15;
+    text-shadow: 
+        4px 4px 0 #f5d742,
+        -2px -2px 0 #f5d742,
+        2px -2px 0 #f5d742,
+        -2px 2px 0 #f5d742,
+        2px 2px 0 #f5d742,
+        0 0 20px rgba(255,215,0,0.5);
+    letter-spacing: 3px;
+    transform: rotate(-3deg);
+    animation: titleFloat 3s ease-in-out infinite alternate;
+    position: relative;
+    
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+@keyframes titleFloat {
+    0% { transform: rotate(-3deg) translateY(0); }
+    100% { transform: rotate(-3deg) translateY(-15px); }
+}
